@@ -5,29 +5,29 @@ import pandas as pd
 import seaborn as sns
 import streamlit as st
 
-# Load dataset
+# menload dataset yang diberikan.
 day_df = pd.read_csv("data/day_data.csv")
 hour_df = pd.read_csv("data/hour_data.csv")
 
-# Sidebar Filters
+# fitur untuk sidebar di sebelah kiri atau penjadwalan kalender.
 st.sidebar.header("Filter Rentang Waktu")
 date_range = st.sidebar.date_input("Pilih rentang waktu", [])
 
 st.title("Bike Sharing Dashboard mc222d5y1316 Marvi Yoga Pratama")
 
-# Distribusi Jumlah Penyewaan Sepeda Harian (Misleading dengan sumbu Y tidak mulai dari 0)
-st.subheader("Distribusi Jumlah Penyewaan Sepeda Harian (Misleading)")
+# Data yang menampilkan distribusi penyewaan sepeda perhari.
+st.subheader("Distribusi Jumlah Penyewaan Sepeda Harian")
 fig, ax = plt.subplots(figsize=(12, 6))
 sns.histplot(day_df['cnt'], bins=30, kde=True, ax=ax, color='red')
 
-# Cek apakah dataframe kosong sebelum mengatur batas sumbu Y
+# mengecek apakah dataframe tersebut kosong.
 if not day_df['cnt'].isna().all():
-    ax.set_ylim(100, day_df['cnt'].max())  # Memulai sumbu Y bukan dari 0 (Misleading)
+    ax.set_ylim(100, day_df['cnt'].max())
 ax.set_title("Distribusi Jumlah Penyewaan Sepeda Harian")
 st.pyplot(fig)
 
-# Hubungan antara Suhu dan Jumlah Penyewaan Sepeda (Hides - Menyembunyikan beberapa data)
-st.subheader("Hubungan antara Suhu dan Jumlah Penyewaan Sepeda (Hides)")
+# Dataset yang akan menampilkan hubungan antara suhu lingkungan dengan jumlah penyewaan sepeda.
+st.subheader("Hubungan antara Suhu dan Jumlah Penyewaan Sepeda")
 fig, ax = plt.subplots(figsize=(12, 6))
 sns.scatterplot(x=day_df['temp'], y=day_df['cnt'], alpha=0.3, ax=ax, color='blue')
 ax.set_xlabel("Suhu")
@@ -35,8 +35,8 @@ ax.set_ylabel("Jumlah Penyewaan")
 ax.set_title("Hubungan antara Suhu dan Jumlah Penyewaan Sepeda")
 st.pyplot(fig)
 
-# Tren Penyewaan Sepeda sepanjang Hari (Distracts - Warna dan Overlap yang Mengganggu)
-st.subheader("Tren Penyewaan Sepeda sepanjang Hari (Distracts)")
+# Hasil dataset yang menampilkan tren penyewaan sepeda
+st.subheader("Tren Penyewaan Sepeda sepanjang Hari")
 fig, ax = plt.subplots(figsize=(12, 6))
 sns.lineplot(x=hour_df['hr'], y=hour_df['cnt'], ci=None, ax=ax, color='green')
 sns.scatterplot(x=hour_df['hr'], y=hour_df['cnt'], ax=ax, color='yellow', alpha=0.7)  # Tambahkan layer yang distracting
@@ -45,7 +45,7 @@ ax.set_ylabel("Jumlah Penyewaan")
 ax.set_title("Tren Penyewaan Sepeda sepanjang Hari")
 st.pyplot(fig)
 
-# RFM Analysis
+# Menggunakan RFM Analysis karena mungkin ini yang paling mudah hehe.
 st.subheader("RFM Analysis")
 hour_df['dteday'] = pd.to_datetime(hour_df['dteday'])
 latest_date = hour_df['dteday'].max()
