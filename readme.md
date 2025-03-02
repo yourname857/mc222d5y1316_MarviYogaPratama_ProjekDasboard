@@ -2,6 +2,7 @@
 
 pip install -r requirements.txt
 pip install pandas numpy matplotlib seaborn streamlit babel
+pip install scikit-learn
 
 ## prepare run program
 
